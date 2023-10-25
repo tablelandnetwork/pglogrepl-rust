@@ -6,7 +6,10 @@ use std::sync::Arc;
 use tokio::task;
 
 /// starts streaming changes
-pub async fn start_streaming_changes(db_string: String) -> Result<(), tokio_postgres::Error> {
+pub async fn start_streaming_changes(
+    db_string: String,
+    table_name: String,
+) -> Result<(), tokio_postgres::Error> {
     let repl_client = Arc::new(
         replication::DBClient::new(&format!("{} replication=database", db_string))
             .await
@@ -18,7 +21,6 @@ pub async fn start_streaming_changes(db_string: String) -> Result<(), tokio_post
 
     // Hardcoded for now
     let schema_name = "public".to_string();
-    let table_name = "testbytea".to_string();
     let ddb_path = "./basin.duck.db";
 
     let mut publication =
@@ -61,9 +63,15 @@ async fn main() {
             "user=postgres password=password host=localhost port=5432 dbname=postgres".to_string()
         }
     };
-
     println!("Connecting to PG with DB_CONF: {}", db_conn_str);
 
-    let streaming_handle = task::spawn(async { start_streaming_changes(db_conn_str).await });
+    let table_name = match env::var("TABLE_NAME") {
+        Ok(val) => val,
+        Err(_) => panic!("TABLE_NAME not set"),
+    };
+    println!("Listening to Table: {}", &table_name);
+
+    let streaming_handle =
+        task::spawn(async { start_streaming_changes(db_conn_str, table_name).await });
     streaming_handle.await.unwrap().unwrap();
 }
