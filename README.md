@@ -27,10 +27,10 @@ It will start replicating every insert transactions on the source database as th
 
 This POC uses [Materialize](https://materialize.com/)'s fork of [rust-postgres](https://github.com/MaterializeInc/rust-postgres) for logical replication protocol implementation.
 
-### Helpful links related to logical replication
+### Helpful links
 
 - Logical decoding [example](https://github.com/seddonm1/logicaldecoding)
-- `rust-postgres`: https://github.com/sfackler/rust-postgres/issues/116
-- [Materialize](https://materialize.com/)'s fork of `rust-postgres` with the patches required to support logical decoding: https://github.com/MaterializeInc/rust-postgres
-- replication example: https://github.com/debate-map/app/blob/afc6467b6c6c961f7bcc7b7f901f0ff5cd79d440/Packages/app-server-rs/src/pgclient.rs
+- Replication issue on `rust-postgres` [repo](https://github.com/sfackler/rust-postgres/issues/116)
+- [Materialize](https://github.com/MaterializeInc/rust-postgres)'s fork of `rust-postgres` with the patches required to support logical decoding
+- Replication [example](https://github.com/debate-map/app/blob/afc6467b6c6c961f7bcc7b7f901f0ff5cd79d440/Packages/app-server-rs/src/pgclient.rs)
 - Instructure's Change data [capture](https://github.com/instructure/jsoncdc)
